@@ -1,7 +1,7 @@
 import React from "react";
 
 import { View, Text, StyleSheet } from "react-native";
-import SwitchButton from "../componentts/SwitchButton";
+import SwitchButton from "../components/SwitchButton";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const mainStyles = StyleSheet.create({
