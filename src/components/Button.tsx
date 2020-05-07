@@ -14,9 +14,6 @@ const buttonStyles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
-  normalText: {
-    color: "#000000",
-  },
   container: {
     display: "flex",
     flexDirection: "row",
