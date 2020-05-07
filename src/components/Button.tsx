@@ -1,5 +1,5 @@
-import React, { ReactNode, ReactElement } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 const buttonStyles = StyleSheet.create({
   normalContainer: {
@@ -41,7 +41,7 @@ const buttonStyles = StyleSheet.create({
   },
 });
 
-interface IButtonProps {
+interface IButtonProps extends TouchableOpacityProps {
   text: string;
   active?: boolean;
   icon?: React.ReactElement;
@@ -49,7 +49,7 @@ interface IButtonProps {
 
 export default class Button extends React.Component<IButtonProps, {}> {
   render() {
-    const { active, icon, text } = this.props;
+    const { active, icon, text, ...props } = this.props;
 
     const textStyles = [buttonStyles.text, active ? buttonStyles.highlightedText : buttonStyles.normalText];
 
@@ -59,7 +59,7 @@ export default class Button extends React.Component<IButtonProps, {}> {
     ];
 
     return (
-      <TouchableOpacity style={containerStyles}>
+      <TouchableOpacity {...props} style={containerStyles}>
         {icon && React.cloneElement(icon, { style: textStyles })}
         <Text style={[textStyles, icon ? buttonStyles.iconMargin : null]}>{text}</Text>
       </TouchableOpacity>
