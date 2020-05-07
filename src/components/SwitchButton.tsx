@@ -13,7 +13,6 @@ interface ISwitchButtonState {
 
 const switchButtonStyles = StyleSheet.create({
   container: {
-    flex: 1,
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
