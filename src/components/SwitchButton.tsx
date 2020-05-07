@@ -34,15 +34,19 @@ export default class SwitchButton extends React.PureComponent<ISwitchButtonProps
   render() {
     const { children } = this.props;
     const { activeButtonIndex } = this.state;
-    const validChildren = children?.filter((child) => child.type === Button).length === 2;
+    const btnChildren = children?.filter((child) => child.type === Button);
 
-    if (!validChildren || !children) {
+    if (!btnChildren) {
+      return null;
+    }
+
+    if (btnChildren.length > 2 || btnChildren.length === 1) {
       throw new Error("Need exactly 2 button components to function.");
     }
 
     return (
       <View style={switchButtonStyles.container}>
-        {children.map((child, index) =>
+        {btnChildren.map((child, index) =>
           React.cloneElement(child, {
             key: `SwitchButton-${child.props.text}-${index}`,
             active: activeButtonIndex === index,
