@@ -2,6 +2,10 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 const buttonStyles = StyleSheet.create({
+  block: {
+    justifyContent: "center",
+    alignSelf: "stretch",
+  },
   iconMargin: {
     marginLeft: 8,
   },
@@ -73,13 +77,14 @@ const typeMap = {
 interface IButtonProps extends TouchableOpacityProps {
   text: string;
   active?: boolean;
+  block?: boolean;
   icon?: React.ReactElement;
   type?: ButtonColor;
 }
 
 export default class Button extends React.Component<IButtonProps, {}> {
   render() {
-    const { active, icon, text, type, ...props } = this.props;
+    const { active, icon, text, type, block, ...props } = this.props;
     const defaultType = "gray";
 
     const backgroundHighlighted = typeMap[type || defaultType].background.highlighted;
@@ -89,7 +94,11 @@ export default class Button extends React.Component<IButtonProps, {}> {
     const textNormal = typeMap[type || defaultType].text.normal;
 
     const textStyles = [buttonStyles.text, active ? textHighlighted : textNormal];
-    const containerStyles = [buttonStyles.container, active ? backgroundHighlighted : backgroundNormal];
+    const containerStyles = [
+      buttonStyles.container,
+      active ? backgroundHighlighted : backgroundNormal,
+      block && buttonStyles.block,
+    ];
 
     return (
       <TouchableOpacity {...props} style={containerStyles}>
