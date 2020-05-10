@@ -1,33 +1,41 @@
 import React from "react";
-
-import { View, Text, StyleSheet } from "react-native";
-import SwitchButton from "../components/SwitchButton";
 import { createStackNavigator } from "@react-navigation/stack";
-
-const mainStyles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
-    flex: 1,
-  },
-});
+import Container from "../components/Container";
+import MoodEntryList from "../components/MoodEntryList";
+import { AntDesign } from "@expo/vector-icons";
+import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-buttons";
 
 const Stack = createStackNavigator();
 
 class MainComponent extends React.Component {
   render() {
     return (
-      <View style={mainStyles.container}>
-        <SwitchButton></SwitchButton>
-      </View>
+      <Container>
+        <MoodEntryList />
+      </Container>
     );
   }
 }
+
+const HeaderAntDesignButton = (props: any) => (
+  <HeaderButton {...props} IconComponent={AntDesign} iconSize={24} color="black" />
+);
 
 export default class Main extends React.Component {
   render() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Main" component={MainComponent} />
+        <Stack.Screen
+          options={{
+            headerRight: (props) => (
+              <HeaderButtons HeaderButtonComponent={HeaderAntDesignButton}>
+                <Item title="add" iconName="plus" />
+              </HeaderButtons>
+            ),
+          }}
+          name="Main"
+          component={MainComponent}
+        />
       </Stack.Navigator>
     );
   }
