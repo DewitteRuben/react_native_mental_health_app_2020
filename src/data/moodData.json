@@ -1,0 +1,21 @@
+{
+  "emotions": {
+    "highEnergy": {
+      "pleasant": ["asthonished", "excited", "amused", "happy", "delighted", "glad", "pleased"],
+      "unpleasant": ["alarmed", "frustrated", "tensted", "annoyed", "distressed"]
+    },
+    "lowEnergy": {
+      "pleasant": ["content", "serene", "atease", "calm", "relaxed", "tired", "sleepy"],
+      "unpleasant": ["miserable", "sad", "depressed", "gloomy", "lethartic", "fatigued"]
+    }
+  },
+  "experiences": [
+    "good time with someone",
+    "achievement",
+    "relaxation",
+    "cconflict with someone",
+    "overwhelming task",
+    "emptiness or boredom"
+  ],
+  "mood": ["veryBad", "bad", "moderate", "good", "veryGood"]
+}
