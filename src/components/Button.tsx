@@ -75,13 +75,13 @@ interface IButtonProps extends TouchableOpacityProps {
   text: string;
   active?: boolean;
   block?: boolean;
-  icon?: React.ReactElement;
+  iconComponent?: React.ReactElement;
   type?: ButtonColor;
 }
 
 export default class Button extends React.Component<IButtonProps, {}> {
   render() {
-    const { active, icon, text, type, block, ...props } = this.props;
+    const { active, iconComponent, text, type, block, style, ...props } = this.props;
     const defaultType = "gray";
 
     const backgroundHighlighted = typeMap[type || defaultType].background.highlighted;
@@ -98,9 +98,9 @@ export default class Button extends React.Component<IButtonProps, {}> {
     ];
 
     return (
-      <TouchableOpacity {...props} style={containerStyles}>
-        {icon && React.cloneElement(icon, { style: textStyles })}
-        <Text style={[textStyles, icon ? buttonStyles.iconMargin : null]}>{text}</Text>
+      <TouchableOpacity style={[containerStyles, style]} {...props}>
+        {iconComponent && React.cloneElement(iconComponent, { style: textStyles })}
+        <Text style={[textStyles, iconComponent ? buttonStyles.iconMargin : null]}>{text}</Text>
       </TouchableOpacity>
     );
   }
