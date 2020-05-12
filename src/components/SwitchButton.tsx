@@ -4,7 +4,8 @@ import Button from "./Button";
 
 interface ISwitchButtonProps {
   children?: React.ReactElement[];
-  onChange?: (text: string, index: number) => void;
+  values?: string[];
+  onChange?: (text: string, index: number, value?: string) => void;
 }
 
 interface ISwitchButtonState {
@@ -23,10 +24,10 @@ export default class SwitchButton extends React.PureComponent<ISwitchButtonProps
   state: ISwitchButtonState = {};
 
   handleOnPress = (text: string, index: number) => () => {
-    const { onChange } = this.props;
+    const { onChange, values } = this.props;
     this.setState({ activeButtonIndex: index }, () => {
       if (onChange) {
-        onChange(text, index);
+        onChange(text, index, values && values[index]);
       }
     });
   };
@@ -46,7 +47,7 @@ export default class SwitchButton extends React.PureComponent<ISwitchButtonProps
 
     return (
       <View style={switchButtonStyles.container}>
-        {btnChildren.map((child, index) =>
+        {btnChildren?.map((child, index) =>
           React.cloneElement(child, {
             key: `SwitchButton-${child.props.text}-${index}`,
             active: activeButtonIndex === index,
