@@ -14,6 +14,9 @@ const buttonStyles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
+  square: {
+    borderRadius: 0,
+  },
   container: {
     display: "flex",
     flexDirection: "row",
@@ -75,13 +78,14 @@ interface IButtonProps extends TouchableOpacityProps {
   text: string;
   active?: boolean;
   block?: boolean;
+  square?: boolean;
   iconComponent?: React.ReactElement;
   type?: ButtonColor;
 }
 
 export default class Button extends React.Component<IButtonProps, {}> {
   render() {
-    const { active, iconComponent, text, type, block, style, ...props } = this.props;
+    const { active, iconComponent, text, type, block, style, square, ...props } = this.props;
     const defaultType = "gray";
 
     const backgroundHighlighted = typeMap[type || defaultType].background.highlighted;
@@ -91,10 +95,14 @@ export default class Button extends React.Component<IButtonProps, {}> {
     const textNormal = typeMap[type || defaultType].text.normal;
 
     const textStyles = [buttonStyles.text, active ? textHighlighted : textNormal];
+    const toggleBorderRadius = square && buttonStyles.square;
+    const toggleBlock = block && buttonStyles.block;
+
     const containerStyles = [
       buttonStyles.container,
       active ? backgroundHighlighted : backgroundNormal,
-      block && buttonStyles.block,
+      toggleBlock,
+      toggleBorderRadius,
     ];
 
     return (
