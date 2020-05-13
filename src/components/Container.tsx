@@ -1,9 +1,9 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, StyleSheet, ScrollView } from "react-native";
 
 interface IContainerProps {
   padded?: boolean;
+  scroll?: boolean;
 }
 
 const containerStyles = StyleSheet.create({
@@ -16,8 +16,9 @@ const containerStyles = StyleSheet.create({
   },
 });
 
-const Container: React.FC<IContainerProps> = ({ children, padded }) => (
-  <View style={[containerStyles.container, padded && containerStyles.padding]}>{children}</View>
-);
+const Container: React.FC<IContainerProps> = ({ children, padded, scroll }) => {
+  const Component = scroll ? ScrollView : View;
+  return <Component style={[containerStyles.container, padded && containerStyles.padding]}>{children}</Component>;
+};
 
 export default Container;
