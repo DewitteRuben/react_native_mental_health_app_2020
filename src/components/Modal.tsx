@@ -26,7 +26,7 @@ const modalStyles = StyleSheet.create({
   },
 });
 
-interface IModalButton {
+export interface IModalButton {
   text: string;
   callback?: () => void;
   close?: boolean;
@@ -43,6 +43,14 @@ interface IModalState {
   visible?: boolean;
 }
 
+export const createModalButton = (text: string, callback?: () => void, close?: boolean) => {
+  return {
+    text,
+    callback,
+    close,
+  };
+};
+
 export default class Modal extends React.Component<IModalProps, IModalState> {
   state: IModalState = {
     visible: this.props.visible || false,
@@ -55,11 +63,17 @@ export default class Modal extends React.Component<IModalProps, IModalState> {
     });
   };
 
+  openModal = () => {
+    this.setState({ visible: true });
+  };
+
   componentDidUpdate(prevProps: IModalProps) {
     const { visible } = this.props;
     if (prevProps.visible !== visible) {
       if (!visible) {
         this.closeModal();
+      } else {
+        this.openModal();
       }
     }
   }
