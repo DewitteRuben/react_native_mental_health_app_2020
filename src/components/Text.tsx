@@ -1,5 +1,5 @@
 import React from "react";
-import { Text as RNText, StyleSheet } from "react-native";
+import { Text as RNText, StyleSheet, TextProperties } from "react-native";
 
 const textStyles = StyleSheet.create({
   primary: {
@@ -28,7 +28,7 @@ const textStyles = StyleSheet.create({
   },
 });
 
-interface ITextProps {
+interface ITextProps extends TextProperties {
   bold?: boolean;
   size?: "small" | "large";
   align?: "left" | "right" | "center";
@@ -36,11 +36,12 @@ interface ITextProps {
 
 export default class Text extends React.Component<ITextProps> {
   render() {
-    const { bold, size, align, children } = this.props;
+    const { bold, size, align, children, style, ...rest } = this.props;
 
     return (
       <RNText
         style={[
+          style,
           textStyles.primary,
           textStyles.regular,
           bold && textStyles.bold,
