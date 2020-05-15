@@ -44,7 +44,7 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
   handleOnSelect = (id: string) => () => {
     const { max, onSelect } = this.props;
     const { selected } = this.state;
-    const maximumSelected = max || 2;
+    const maximumSelected = max || Number.MAX_SAFE_INTEGER;
 
     if (selected === undefined) {
       return;
