@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
-import Button, { ButtonColor } from "./Button";
+import { FlatList, StyleSheet } from "react-native";
+import Button, { IButtonProps, ButtonColor } from "./Button";
 import _ from "lodash";
 
 const multiButtonSelectorStyles = StyleSheet.create({
@@ -13,11 +13,10 @@ const multiButtonSelectorStyles = StyleSheet.create({
   button: { marginHorizontal: 5, marginVertical: 5 },
 });
 
-interface IMultiButtonSelectorProps {
-  data: { id: string; value: string }[];
-  type?: ButtonColor;
+interface IMultiButtonSelectorProps extends Partial<IButtonProps> {
   max?: number;
   onSelect?: (selected: string[]) => void;
+  data: { id: string; value: string }[];
 }
 
 interface IMultiButtonSelectorState {
@@ -67,21 +66,28 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
   };
 
   render() {
-    const { data, type } = this.props;
+    const { data, type, onSelect, block, ...rest } = this.props;
+
+    const defaultType: ButtonColor = "blue";
+    const columnWrapper = !block && multiButtonSelectorStyles.listContainer;
+    const numColumns = block ? undefined : 5;
+
     return (
       <FlatList
-        columnWrapperStyle={multiButtonSelectorStyles.listContainer}
+        columnWrapperStyle={columnWrapper}
         data={data}
-        numColumns={5}
+        numColumns={numColumns}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Button
             style={multiButtonSelectorStyles.button}
             onPress={this.handleOnSelect(item.id)}
             active={this.isActive(item.id)}
-            type={type || "blue"}
+            type={type || defaultType}
             key={item.id}
+            block={block}
             text={_.capitalize(item.value)}
+            {...rest}
           />
         )}
       />
