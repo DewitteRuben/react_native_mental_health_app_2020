@@ -4,8 +4,8 @@ import Button from "./Button";
 
 interface ISwitchButtonProps {
   children?: React.ReactElement[];
-  values?: string[];
-  onChange?: (text: string, index: number, value?: string) => void;
+  values?: any[];
+  onChange?: (text: string, index: number, value?: any) => void;
 }
 
 interface ISwitchButtonState {
