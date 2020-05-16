@@ -102,7 +102,7 @@ export default class EmotionSelector extends React.Component<{}, IEmotionSelecto
         <Text align="center">Select at least one option that most accurately describes your current emotions</Text>
         {emotionsList && (
           <>
-            <MultiButtonSelector max={2} data={emotionsList} />
+            <MultiButtonSelector resetOnUpdate max={2} data={emotionsList} />
             <Spacer />
             <Button
               block

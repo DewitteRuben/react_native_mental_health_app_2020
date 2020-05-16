@@ -22,6 +22,7 @@ interface IMultiButtonSelectorProps extends Partial<IButtonProps> {
   max?: number;
   onSelect?: (selected: IMultiSelectorButton[]) => void;
   data: (string | IMultiSelectorButton)[];
+  resetOnUpdate?: boolean;
 }
 
 interface IMultiButtonSelectorState {
@@ -38,9 +39,10 @@ export default class MultiButtonSelector extends React.Component<IMultiButtonSel
   }
 
   componentDidUpdate(prevProps: IMultiButtonSelectorProps) {
+    const { resetOnUpdate } = this.props;
     const { data } = prevProps;
 
-    if (!_.isEqual(data, this.props.data)) {
+    if (!_.isEqual(data, this.props.data) && resetOnUpdate) {
       this.setState({ selected: [] });
     }
   }
