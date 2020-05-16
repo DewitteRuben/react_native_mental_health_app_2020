@@ -1,8 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Modal as RNModal } from "react-native";
+import { StyleSheet, Dimensions, Modal as RNModal, View } from "react-native";
 import Text from "./Text";
 import Button from "./Button";
 import Spacer from "./Spacer";
+import { BackHandler } from "react-native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -29,7 +30,6 @@ const modalStyles = StyleSheet.create({
 export interface IModalButton {
   text: string;
   callback?: () => void;
-  close?: boolean;
 }
 
 interface IModalProps {
@@ -43,11 +43,10 @@ interface IModalState {
   visible?: boolean;
 }
 
-export const createModalButton = (text: string, callback?: () => void, close?: boolean) => {
+export const createModalButton = (text: string, callback?: () => void) => {
   return {
     text,
     callback,
-    close,
   };
 };
 
@@ -58,6 +57,12 @@ export default class Modal extends React.Component<IModalProps, IModalState> {
 
   closeModal = () => {
     const { onClose } = this.props;
+    const { visible } = this.state;
+
+    if (!visible) {
+      return;
+    }
+
     this.setState({ visible: false }, () => {
       if (onClose) onClose();
     });
@@ -78,9 +83,8 @@ export default class Modal extends React.Component<IModalProps, IModalState> {
     }
   }
 
-  handleOnCloseButton = (callback?: () => void, close?: boolean) => () => {
+  handleButtonCallback = (callback?: () => void) => () => {
     if (callback) callback();
-    if (close) this.closeModal();
   };
 
   render() {
@@ -96,14 +100,14 @@ export default class Modal extends React.Component<IModalProps, IModalState> {
             <View>{children}</View>
             <Spacer />
             <View style={modalStyles.buttons}>
-              {buttons.map(({ callback, text, close }, index: number) => {
+              {buttons.map(({ callback, text }, index: number) => {
                 const key = `modalButton-${index}`;
                 if (index === buttons.length - 1) {
-                  return <Button key={key} text={text} onPress={this.handleOnCloseButton(callback, close)} square />;
+                  return <Button key={key} text={text} onPress={this.handleButtonCallback(callback)} square />;
                 }
                 return (
                   <React.Fragment key={key}>
-                    <Button text={text} onPress={this.handleOnCloseButton(callback, close)} square />
+                    <Button text={text} onPress={this.handleButtonCallback(callback)} square />
                     <Spacer vertical />
                   </React.Fragment>
                 );
