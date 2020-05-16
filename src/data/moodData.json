@@ -10,12 +10,12 @@
     }
   },
   "experiences": [
-    "good time with someone",
-    "achievement",
-    "relaxation",
-    "cconflict with someone",
-    "overwhelming task",
-    "emptiness or boredom"
+    { "name": "good time with someone", "positive": true },
+    { "name": "achievement", "positive": true },
+    { "name": "relaxation", "positive": true },
+    { "name": "conflict with someone", "positive": false },
+    { "name": "overwhelming task", "positive": false },
+    { "name": "emptiness or boredom", "positive": false }
   ],
   "mood": ["veryBad", "bad", "moderate", "good", "veryGood"]
 }
