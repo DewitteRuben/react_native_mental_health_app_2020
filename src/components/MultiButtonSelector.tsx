@@ -16,7 +16,7 @@ const multiButtonSelectorStyles = StyleSheet.create({
 interface IMultiButtonSelectorProps extends Partial<IButtonProps> {
   max?: number;
   onSelect?: (selected: string[]) => void;
-  data: { id: string; value: string }[];
+  data: (string | { id: string; value: string })[];
 }
 
 interface IMultiButtonSelectorState {
@@ -65,6 +65,17 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
     return selected?.includes(id);
   };
 
+  getData = () => {
+    const { data } = this.props;
+    const firstElement = data[0];
+    if (typeof firstElement === "string") {
+      const stringArray = data as string[];
+      const dataArray = stringArray.map((experience) => ({ id: `experience-${experience}`, value: experience }));
+      return dataArray;
+    }
+    return data as { id: string; value: string }[];
+  };
+
   render() {
     const { data, type, onSelect, block, ...rest } = this.props;
 
@@ -75,7 +86,7 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
     return (
       <FlatList
         columnWrapperStyle={columnWrapper}
-        data={data}
+        data={this.getData()}
         numColumns={numColumns}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
