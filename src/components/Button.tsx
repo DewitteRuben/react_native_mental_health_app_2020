@@ -74,7 +74,7 @@ const typeMap = {
   ...createColorStyle("darkBlue", "#1F5D84", "#ffffff", "#ffffff", "#1F5D84"),
 };
 
-interface IButtonProps extends TouchableOpacityProps {
+export interface IButtonProps extends TouchableOpacityProps {
   text: string;
   active?: boolean;
   block?: boolean;
