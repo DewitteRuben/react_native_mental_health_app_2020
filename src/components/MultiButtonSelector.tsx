@@ -13,35 +13,39 @@ const multiButtonSelectorStyles = StyleSheet.create({
   button: { marginHorizontal: 5, marginVertical: 5 },
 });
 
+export interface IMultiSelectorButton {
+  id: string;
+  value: string;
+}
+
 interface IMultiButtonSelectorProps extends Partial<IButtonProps> {
   max?: number;
-  onSelect?: (selected: string[]) => void;
-  data: (string | { id: string; value: string })[];
+  onSelect?: (selected: IMultiSelectorButton[]) => void;
+  data: (string | IMultiSelectorButton)[];
 }
 
 interface IMultiButtonSelectorState {
-  selected: string[];
+  selected: IMultiSelectorButton[];
 }
 
-const onSelectCallback = (selected: string[], onSelect?: (selected: string[]) => void) => () => {
-  if (onSelect) {
-    onSelect(selected);
-  }
-};
-
-export default class MultiButtonSelector extends Component<IMultiButtonSelectorProps, IMultiButtonSelectorState> {
+export default class MultiButtonSelector extends React.Component<IMultiButtonSelectorProps, IMultiButtonSelectorState> {
   state: IMultiButtonSelectorState = {
     selected: [],
   };
 
+  shouldComponentUpdate(nextProps: IMultiButtonSelectorProps, nextState: IMultiButtonSelectorState) {
+    return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state);
+  }
+
   componentDidUpdate(prevProps: IMultiButtonSelectorProps) {
     const { data } = prevProps;
-    if (data !== this.props.data) {
+
+    if (!_.isEqual(data, this.props.data)) {
       this.setState({ selected: [] });
     }
   }
 
-  handleOnSelect = (id: string) => () => {
+  handleOnSelect = (button: IMultiSelectorButton) => () => {
     const { max, onSelect } = this.props;
     const { selected } = this.state;
     const maximumSelected = max || Number.MAX_SAFE_INTEGER;
@@ -50,19 +54,25 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
       return;
     }
 
-    let curSelected = selected.slice();
-    if (curSelected.includes(id)) {
-      curSelected = curSelected.filter((sel) => sel !== id);
+    let curSelected = selected.slice().map((button) => ({ ...button }));
+    const isAlreadySelected = _.some(curSelected, (selected) => selected.id === button.id);
+
+    if (isAlreadySelected) {
+      curSelected = curSelected.filter((sel) => sel.id !== button.id);
     } else {
-      curSelected = [...(curSelected.length === maximumSelected ? curSelected.slice(-1) : curSelected), id];
+      curSelected = [...(curSelected.length === maximumSelected ? curSelected.slice(-1) : curSelected), button];
     }
 
-    this.setState({ selected: curSelected }, onSelectCallback(selected, onSelect));
+    this.setState({ selected: curSelected }, () => {
+      if (onSelect) {
+        onSelect(this.state.selected);
+      }
+    });
   };
 
-  isActive = (id: string) => {
+  isActive = (button: IMultiSelectorButton) => {
     const { selected } = this.state;
-    return selected?.includes(id);
+    return _.some(selected, (selected) => selected.id === button.id);
   };
 
   getData = () => {
@@ -73,7 +83,7 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
       const dataArray = stringArray.map((experience) => ({ id: `experience-${experience}`, value: experience }));
       return dataArray;
     }
-    return data as { id: string; value: string }[];
+    return data as IMultiSelectorButton[];
   };
 
   render() {
@@ -92,8 +102,8 @@ export default class MultiButtonSelector extends Component<IMultiButtonSelectorP
         renderItem={({ item }) => (
           <Button
             style={multiButtonSelectorStyles.button}
-            onPress={this.handleOnSelect(item.id)}
-            active={this.isActive(item.id)}
+            onPress={this.handleOnSelect(item)}
+            active={this.isActive(item)}
             type={type || defaultType}
             key={item.id}
             block={block}
