@@ -36,7 +36,7 @@ const buttonStyles = StyleSheet.create({
   },
 });
 
-export type ButtonColor = "gray" | "blue" | "green" | "darkBlue";
+export type ButtonColor = "gray" | "blue" | "green" | "darkBlue" | "orange";
 
 const createColorStyle = (
   name: ButtonColor,
@@ -72,6 +72,7 @@ const typeMap = {
   ...createColorStyle("blue", "#77B4E8", "#ffffff", "#ffffff", "#77B4E8"),
   ...createColorStyle("green", "#8DC36D", "#ffffff", "#ffffff", "#8DC36D"),
   ...createColorStyle("darkBlue", "#1F5D84", "#ffffff", "#ffffff", "#1F5D84"),
+  ...createColorStyle("orange", "#eb9b49", "#ffffff", "#ffffff", "#eb9b49"),
 };
 
 export interface IButtonProps extends TouchableOpacityProps {
