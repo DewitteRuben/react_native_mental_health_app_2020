@@ -28,25 +28,33 @@ const textStyles = StyleSheet.create({
   },
 });
 
+const createColor = (color: string) => {
+  return {
+    color,
+  };
+};
+
 interface ITextProps extends TextProperties {
   bold?: boolean;
   size?: "small" | "large";
   align?: "left" | "right" | "center";
+  color?: string;
 }
 
 export default class Text extends React.Component<ITextProps> {
   render() {
-    const { bold, size, align, children, style, ...rest } = this.props;
+    const { bold, size, align, children, style, color, ...rest } = this.props;
 
     return (
       <RNText
         style={[
-          style,
           textStyles.primary,
           textStyles.regular,
           bold && textStyles.bold,
           align && textStyles[align],
           size && textStyles[size],
+          color ? createColor(color) : undefined,
+          style,
         ]}
       >
         {children}
