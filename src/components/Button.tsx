@@ -36,7 +36,7 @@ const buttonStyles = StyleSheet.create({
   },
 });
 
-export type ButtonColor = "gray" | "blue" | "red" | "green" | "darkBlue";
+export type ButtonColor = "gray" | "blue" | "green" | "darkBlue";
 
 const createColorStyle = (
   name: ButtonColor,
