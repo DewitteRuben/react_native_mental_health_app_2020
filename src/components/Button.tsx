@@ -7,7 +7,7 @@ const buttonStyles = StyleSheet.create({
     alignSelf: "stretch",
   },
   iconMargin: {
-    marginLeft: 8,
+    marginHorizontal: 8,
   },
   text: {
     textTransform: "uppercase",
@@ -81,13 +81,15 @@ export interface IButtonProps extends TouchableOpacityProps {
   block?: boolean;
   square?: boolean;
   iconComponent?: React.ReactElement;
+  iconPosition?: "left" | "right";
   type?: ButtonColor;
 }
 
 export default class Button extends React.Component<IButtonProps, {}> {
   render() {
-    const { active, iconComponent, text, type, block, style, square, ...props } = this.props;
+    const { active, iconComponent, text, type, block, style, square, iconPosition, ...props } = this.props;
     const defaultType = "gray";
+    const right = iconPosition === "right";
 
     const backgroundHighlighted = typeMap[type || defaultType].background.highlighted;
     const backgroundNormal = typeMap[type || defaultType].background.normal;
@@ -106,10 +108,13 @@ export default class Button extends React.Component<IButtonProps, {}> {
       toggleBorderRadius,
     ];
 
+    const IconComponent = iconComponent && React.cloneElement(iconComponent, { style: textStyles });
+
     return (
       <TouchableOpacity style={[containerStyles, style]} {...props}>
-        {iconComponent && React.cloneElement(iconComponent, { style: textStyles })}
-        <Text style={[textStyles, iconComponent ? buttonStyles.iconMargin : null]}>{text}</Text>
+        {!right && IconComponent}
+        <Text style={[textStyles, iconComponent && buttonStyles.iconMargin]}>{text}</Text>
+        {right && IconComponent}
       </TouchableOpacity>
     );
   }
