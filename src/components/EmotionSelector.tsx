@@ -61,8 +61,8 @@ export default class EmotionSelector extends React.Component<{}, IEmotionSelecto
     return null;
   };
 
-  setEmotion = (emotion: string) => {
-    this.setState({ emotion });
+  setEmotion = (emotion: React.ReactText) => {
+    this.setState({ emotion: emotion as string });
   };
 
   addEmotion = () => {

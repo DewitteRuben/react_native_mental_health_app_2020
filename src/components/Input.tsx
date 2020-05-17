@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput as RNTextInput, StyleSheet } from "react-native";
+import { TextInput as RNTextInput, StyleSheet, TextInputProperties } from "react-native";
 import Text from "./Text";
 import Animated, { Value, timing, Easing } from "react-native-reanimated";
 import Button from "./Button";
@@ -17,6 +17,10 @@ const textInputStyles = StyleSheet.create({
   text: {
     color: "#567ab3",
   },
+  multiline: {
+    height: 80,
+    textAlignVertical: "top",
+  },
 });
 
 interface ITextInputState {
@@ -24,9 +28,11 @@ interface ITextInputState {
   value: string;
 }
 
-interface ITextInputProps {
-  onChangeText?: (value: string) => void;
+interface ITextInputProps extends TextInputProperties {
+  onChangeText?: (value: string | number) => void;
   label?: string;
+  number?: boolean;
+  maxDigits?: number;
 }
 
 const createConfig = (duration: number, toValue: number, easing?: Animated.EasingFunction): Animated.TimingConfig => {
@@ -45,7 +51,11 @@ const FINAL_Y = 0;
 
 const ANIMATION_DURATION = 150;
 
-export default class TextInput extends React.Component<ITextInputProps, ITextInputState> {
+const isValidNumber = (maxDigits: number, value: string) => {
+  return value.length <= maxDigits && value.match(/[0-9]/);
+};
+
+export default class Input extends React.Component<ITextInputProps, ITextInputState> {
   state: ITextInputState = {
     focus: false,
     value: "",
@@ -87,16 +97,24 @@ export default class TextInput extends React.Component<ITextInputProps, ITextInp
   };
 
   onTextChange = (value: string) => {
-    const { onChangeText } = this.props;
-    this.setState({ value }, () => {
-      if (onChangeText) {
-        onChangeText(value);
-      }
-    });
+    const { onChangeText, number, maxDigits } = this.props;
+    const numberInput = number && value.length;
+
+    if (numberInput) {
+      const isValid = isValidNumber(maxDigits || Number.MAX_SAFE_INTEGER, value);
+      if (!isValid) return;
+    }
+
+    if (onChangeText) {
+      onChangeText(numberInput ? parseInt(value) : value);
+    }
+
+    this.setState({ value });
   };
 
   render() {
-    const { label } = this.props;
+    const { value } = this.state;
+    const { label, style, multiline, number, ...rest } = this.props;
     const { focus } = this.state;
     return (
       <>
@@ -108,10 +126,14 @@ export default class TextInput extends React.Component<ITextInputProps, ITextInp
           </Animated.View>
         )}
         <RNTextInput
+          {...rest}
           onFocus={this.toggleFocus(true)}
           onBlur={this.toggleFocus(false)}
-          style={[textInputStyles.input, focus && textInputStyles.border]}
+          style={[textInputStyles.input, focus && textInputStyles.border, multiline && textInputStyles.multiline, style]}
           onChangeText={this.onTextChange}
+          multiline={multiline}
+          value={value}
+          keyboardType={number ? "numeric" : undefined}
         />
       </>
     );

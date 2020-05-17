@@ -64,8 +64,8 @@ export default class ExperienceSelector extends React.Component<IExperienceSelec
     }
   };
 
-  onInputChange = (text: string) => {
-    this.setState({ experience: text });
+  onInputChange = (text: React.ReactText) => {
+    this.setState({ experience: text as string });
   };
 
   setExperienceType = (text: string, index: number, value?: any) => {
