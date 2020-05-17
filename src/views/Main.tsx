@@ -4,10 +4,12 @@ import Container from "../components/Container";
 import MoodEntryList from "../components/MoodEntryList";
 import { AntDesign } from "@expo/vector-icons";
 import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-buttons";
+import AddMoodEntry from "./AddMoodEntry";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
-class MainComponent extends React.Component {
+class MainComponent extends React.Component<StackNavigationProp<{}>> {
   render() {
     return (
       <Container>
@@ -21,20 +23,29 @@ const HeaderAntDesignButton = (props: any) => (
   <HeaderButton {...props} IconComponent={AntDesign} iconSize={24} color="black" />
 );
 
+const navigate = (route: string) => (navigation: any) => () => navigation.navigate(route);
+
 export default class Main extends React.Component {
   render() {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          options={{
+          options={({ navigation }) => ({
             headerRight: (props) => (
               <HeaderButtons HeaderButtonComponent={HeaderAntDesignButton}>
-                <Item title="add" iconName="plus" />
+                <Item title="add" onPress={navigate("AddEntry")(navigation)} iconName="plus" />
               </HeaderButtons>
             ),
-          }}
+          })}
           name="Main"
           component={MainComponent}
+        />
+        <Stack.Screen
+          options={{
+            headerTitle: "Create a new entry",
+          }}
+          name="AddEntry"
+          component={AddMoodEntry}
         />
       </Stack.Navigator>
     );
