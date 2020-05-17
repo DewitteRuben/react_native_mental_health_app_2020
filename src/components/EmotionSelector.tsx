@@ -5,7 +5,7 @@ import Text from "./Text";
 import Button from "./Button";
 import moodData from "../data/moodData.json";
 import _ from "lodash";
-import MultiButtonSelector from "./MultiButtonSelector";
+import MultiButtonSelector, { IMultiSelectorButton } from "./MultiButtonSelector";
 import Spacer from "./Spacer";
 import { AntDesign } from "@expo/vector-icons";
 import Modal, { IModalButton, createModalButton } from "./Modal";
@@ -31,7 +31,11 @@ interface IEmotionSelectorState {
   extraEmotions: string[];
 }
 
-export default class EmotionSelector extends React.Component<{}, IEmotionSelectorState> {
+interface IEmotionSelectorProps {
+  onSelect?: (selected: IMultiSelectorButton[]) => void;
+}
+
+export default class EmotionSelector extends React.Component<IEmotionSelectorProps, IEmotionSelectorState> {
   state: IEmotionSelectorState = {
     modalVisible: false,
     extraEmotions: [],
@@ -82,6 +86,7 @@ export default class EmotionSelector extends React.Component<{}, IEmotionSelecto
 
   render() {
     const { modalVisible } = this.state;
+    const { onSelect } = this.props;
     const emotionsList = this.getEmotions();
     return (
       <View>
@@ -102,7 +107,7 @@ export default class EmotionSelector extends React.Component<{}, IEmotionSelecto
         <Text align="center">Select at least one option that most accurately describes your current emotions</Text>
         {emotionsList && (
           <>
-            <MultiButtonSelector resetOnUpdate max={2} data={emotionsList} />
+            <MultiButtonSelector onSelect={onSelect} resetOnUpdate max={2} data={emotionsList} />
             <Spacer />
             <Button
               block
