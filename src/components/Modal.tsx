@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions, Modal as RNModal, View } from "react-native";
+import { StyleSheet, Dimensions, Modal as RNModal, View, ViewProperties, StyleProp, ViewStyle } from "react-native";
 import Text from "./Text";
 import Button from "./Button";
 import Spacer from "./Spacer";
@@ -13,6 +13,9 @@ const modalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0, 0.8)",
     justifyContent: "center",
+  },
+  fill: {
+    flex: 1,
   },
   container: {
     backgroundColor: "#fff",
@@ -36,7 +39,9 @@ interface IModalProps {
   title: string;
   buttons: IModalButton[];
   visible?: boolean;
+  contentWrapperStyle?: StyleProp<ViewStyle>;
   onClose?: () => void;
+  fill?: boolean;
 }
 
 interface IModalState {
@@ -88,16 +93,16 @@ export default class Modal extends React.Component<IModalProps, IModalState> {
   };
 
   render() {
-    const { title, children, buttons } = this.props;
+    const { title, children, buttons, fill, contentWrapperStyle } = this.props;
     const { visible } = this.state;
     return (
       <RNModal transparent visible={visible}>
         <View style={modalStyles.backdrop}>
-          <View style={modalStyles.container}>
+          <View style={[modalStyles.container, fill && modalStyles.fill]}>
             <Text bold size="large">
               {title}
             </Text>
-            <View>{children}</View>
+            <View style={[fill && modalStyles.fill, contentWrapperStyle]}>{children}</View>
             <Spacer />
             <View style={modalStyles.buttons}>
               {buttons.map(({ callback, text }, index: number) => {
