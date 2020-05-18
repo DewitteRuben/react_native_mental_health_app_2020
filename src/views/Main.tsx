@@ -23,7 +23,7 @@ const HeaderAntDesignButton = (props: any) => (
   <HeaderButton {...props} IconComponent={AntDesign} iconSize={24} color="black" />
 );
 
-const navigate = (route: string) => (navigation: any) => () => navigation.navigate(route);
+const navigate = (navigation: any) => (route: string) => () => navigation.navigate(route);
 
 export default class Main extends React.Component {
   render() {
@@ -33,7 +33,7 @@ export default class Main extends React.Component {
           options={({ navigation }) => ({
             headerRight: (props) => (
               <HeaderButtons HeaderButtonComponent={HeaderAntDesignButton}>
-                <Item title="add" onPress={navigate("AddEntry")(navigation)} iconName="plus" />
+                <Item title="add" onPress={navigate(navigation)("AddEntry")} iconName="plus" />
               </HeaderButtons>
             ),
           })}
