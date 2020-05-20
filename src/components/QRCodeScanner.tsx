@@ -6,10 +6,12 @@ import Button from "./Button";
 
 interface IQRCodeScannerState {
   status?: PermissionStatus;
+  successfulScan: boolean;
 }
 
 interface IQRCodeScannerProps {
-  onScan?: (data: string) => void;
+  single?: boolean;
+  onScan?: (data: string) => void | boolean;
 }
 
 const BARCODE_TYPE_QR = ["qr"];
@@ -23,6 +25,7 @@ const qrCodeScannerStyles = StyleSheet.create({
 export default class QRCodeScanner extends React.Component<IQRCodeScannerProps, IQRCodeScannerState> {
   state: IQRCodeScannerState = {
     status: undefined,
+    successfulScan: false,
   };
 
   requestPermission = async () => {
@@ -35,10 +38,19 @@ export default class QRCodeScanner extends React.Component<IQRCodeScannerProps, 
   }
 
   handleScan = (params: BarCodeEvent) => {
-    const { onScan } = this.props;
+    const { onScan, single } = this.props;
+    const { successfulScan } = this.state;
     const { data } = params;
+
+    if (single && successfulScan) {
+      return;
+    }
+
     if (onScan) {
-      onScan(data);
+      const scanned = onScan(data);
+      if (scanned) {
+        this.setState({ successfulScan: true });
+      }
     }
   };
 
