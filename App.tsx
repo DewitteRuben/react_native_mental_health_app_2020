@@ -1,11 +1,16 @@
 import React from "react";
 import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import {  renderMainNavigationTabs } from "./src/navigation/navigation";
 import { YellowBox } from "react-native";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+import Root from "./src/views/Root";
 
 YellowBox.ignoreWarnings(["VirtualizedLists should never be nested"]);
 
-export default function App() {
-  return <NavigationContainer>{renderMainNavigationTabs()}</NavigationContainer>;
-}
+const App = () => (
+  <Provider store={store}>
+    <Root />
+  </Provider>
+);
+
+export default App;
