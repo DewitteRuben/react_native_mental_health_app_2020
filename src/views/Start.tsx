@@ -8,9 +8,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Spacer from "../components/Spacer";
 import Modal, { createModalButton } from "../components/Modal";
 import { connect } from "react-redux";
-import { IRootStoreState } from "../redux/store";
 import { Dispatch } from "redux";
-import { AuthAction, SetUserIdAction, ISetUserId } from "../redux/auth/actions/authActions";
+import { AuthAction, AttemptAuthAction, IAttemptAuth } from "../redux/auth/actions/authActions";
 import { isUUID } from "../utils/parse";
 
 const startStyles = StyleSheet.create({
@@ -35,7 +34,7 @@ interface IStartState {
 }
 
 interface IStartProps {
-  authenticate: (userId?: string) => ISetUserId;
+  authenticate: (userId?: string) => IAttemptAuth;
 }
 
 class Start extends React.Component<IStartProps, IStartState> {
@@ -116,7 +115,7 @@ class Start extends React.Component<IStartProps, IStartState> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<AuthAction>) => ({
-  authenticate: (userId?: string) => dispatch(SetUserIdAction(userId)),
+  authenticate: (userId?: string) => dispatch(AttemptAuthAction(userId)),
 });
 
 export default connect(null, mapDispatchToProps)(Start);
