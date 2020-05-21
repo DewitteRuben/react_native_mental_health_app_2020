@@ -7,9 +7,10 @@ import { AuthAction, AttemptAuthAction, IAttemptAuth } from "../redux/auth/actio
 import { connect } from "react-redux";
 import { IRootStoreState } from "../redux/store";
 import { Dispatch } from "redux";
+import { IAuthState } from "../redux/auth/reducer/authReducer";
 
 interface IRootProps {
-  authenticated?: boolean;
+  authenticated?: IAuthState;
   authenticate: () => IAttemptAuth;
 }
 
@@ -17,6 +18,15 @@ class Root extends React.Component<IRootProps, {}> {
   componentDidMount() {
     const { authenticate } = this.props;
     authenticate();
+  }
+
+  componentDidUpdate(prevProps: IRootProps) {
+    const { authenticated, authenticate } = this.props;
+    if (authenticated !== prevProps.authenticated) {
+      if (authenticated === undefined) {
+        authenticate();
+      }
+    }
   }
 
   render() {
