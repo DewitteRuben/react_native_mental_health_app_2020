@@ -1,10 +1,23 @@
-import { takeLeading, call, put } from "redux-saga/effects";
+import { takeLeading, call, put, select } from "redux-saga/effects";
 import { SetUserIdAction, AUTH_ACTION_TYPES, IAttemptAuth } from "../actions/authActions";
 import { setUserId, getUserId } from "../../../utils/storage";
 import { authApiFetchAuth } from "../../../api/authApi";
+import { selectUserId } from "../selectors";
 
 function* watchOnAuthenticate() {
   yield takeLeading(AUTH_ACTION_TYPES.ATTEMPT_AUTH, authenticate);
+}
+
+function* auth(userId: string) {
+  const { token } = yield call(authApiFetchAuth, userId);
+  return token;
+}
+
+function* getToken() {
+  const userId: string = yield select(selectUserId);
+  if (!userId) return null;
+  const token: string = yield call(auth, userId);
+  return token;
 }
 
 function* authenticate(action: IAttemptAuth) {
@@ -24,4 +37,4 @@ function* authenticate(action: IAttemptAuth) {
   }
 }
 
-export { authenticate, watchOnAuthenticate };
+export { authenticate, watchOnAuthenticate, getToken };
