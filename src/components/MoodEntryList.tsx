@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList } from "react-native";
 import MoodEntryListItem from "./MoodEntryListItem";
 import moodEntries from "../data/moodentries.json";
 import { SmileyType } from "./SmileyButton";
+import { IMoodEntry } from "../api/moodApi";
 
 const moodEntryListStyles = StyleSheet.create({
   container: {
@@ -14,15 +15,16 @@ const moodEntryListStyles = StyleSheet.create({
 });
 
 interface IMoodEntryListProps {
-  children?: React.ReactElement[];
+  entries: IMoodEntry[];
 }
 
 export default class MoodEntryList extends Component<IMoodEntryListProps> {
   render() {
+    const { entries } = this.props;
     return (
       <FlatList
         contentContainerStyle={moodEntryListStyles.container}
-        data={moodEntries}
+        data={entries}
         keyExtractor={(item) => item.entryId}
         renderItem={({ item }) =>
           React.cloneElement(
@@ -35,7 +37,7 @@ export default class MoodEntryList extends Component<IMoodEntryListProps> {
             { style: moodEntryListStyles.item }
           )
         }
-      ></FlatList>
+      />
     );
   }
 }
