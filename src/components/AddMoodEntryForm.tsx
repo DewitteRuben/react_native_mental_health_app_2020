@@ -14,8 +14,11 @@ import { IMultiSelectorButton } from "./MultiButtonSelector";
 import _ from "lodash";
 import { PartialBy } from "../utils/types";
 import Modal, { createModalButton } from "./Modal";
+import { v4 as uuidv4 } from "uuid";
 
 export interface INewMoodEntry {
+  entryId: string;
+  date: Date;
   mood: SmileyType;
   emotions: string[];
   experiences: IExperienceItem[];
@@ -82,7 +85,9 @@ export default class AddMoodEntryForm extends React.Component<IAddMoodEntryFormP
     }
 
     if (onSave && emotions && experiences && sleep && mood) {
-      onSave({ emotions, experiences, sleep, mood, thoughts });
+      const entryId = uuidv4(); // needs to be created locally to support offline support
+      const date = new Date(); // needs to be created locally to support offline support
+      onSave({ entryId, emotions, experiences, sleep, mood, date, thoughts });
     }
   };
 
