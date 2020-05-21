@@ -2,6 +2,8 @@ import React from "react";
 import Card from "./Card";
 import SmileyButton, { SmileyType } from "./SmileyButton";
 import { View, Text, StyleSheet, ViewProps } from "react-native";
+import { IMoodEntry } from "../api/moodApi";
+import _ from "lodash";
 
 const moodEntryListItemStyles = StyleSheet.create({
   container: {
@@ -9,24 +11,17 @@ const moodEntryListItemStyles = StyleSheet.create({
   },
 });
 
-export interface IMoodEntry {
-  entryId: string;
-  mood: SmileyType;
-  date: Date;
-  emotions: string[];
-}
-
-interface IMoodEntryListItemProps extends ViewProps, IMoodEntry {}
+interface IMoodEntryListItemProps extends ViewProps, Omit<IMoodEntry, "experiences" | "sleep" | "thoughts"> {}
 
 export default class MoodEntryListItem extends React.Component<IMoodEntryListItemProps> {
   render() {
-    const { style } = this.props;
+    const { style, mood, date, emotions } = this.props;
     return (
       <Card style={[moodEntryListItemStyles.container, style]}>
-        <SmileyButton type="good" />
+        <SmileyButton type={mood as SmileyType} />
         <View>
-          <Text>{new Date().toLocaleString()}</Text>
-          <Text>Calm, Relaxed</Text>
+          <Text>{date.toLocaleString()}</Text>
+          <Text>{emotions.map((emotion) => _.capitalize(emotion)).join(", ")}</Text>
         </View>
         <View>
           <Text>Icon</Text>

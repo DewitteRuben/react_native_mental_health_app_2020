@@ -23,7 +23,7 @@ export default class MoodEntryList extends Component<IMoodEntryListProps> {
       <FlatList
         contentContainerStyle={moodEntryListStyles.container}
         data={moodEntries}
-        keyExtractor={item => item.entryId}
+        keyExtractor={(item) => item.entryId}
         renderItem={({ item }) =>
           React.cloneElement(
             <MoodEntryListItem
