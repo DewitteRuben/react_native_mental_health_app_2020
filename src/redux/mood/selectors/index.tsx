@@ -9,3 +9,6 @@ export const entryIdsSelector = createSelector(selectEntries, (entries) => entri
 
 export const idsToEntries = (ids: string[]) =>
   createSelector(selectEntries, (entries) => entries.filter((entry) => ids.includes(entry.entryId)));
+
+export const entryByIdSelector = (id: string) =>
+  createSelector(selectEntries, (entries) => entries.filter((entry) => entry.entryId === id)[0]);

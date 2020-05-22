@@ -1,11 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Container from "../components/Container";
-import MoodEntryList from "../components/MoodEntryList";
 import { AntDesign } from "@expo/vector-icons";
 import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-buttons";
 import AddMoodEntry from "./AddMoodEntry";
 import { StackNavigationProp } from "@react-navigation/stack";
+import MoodEntryFeed from "../components/MoodEntryFeed";
+import MoodEntryDetail from "./MoodEntryDetail";
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ class MainComponent extends React.Component<StackNavigationProp<{}>> {
   render() {
     return (
       <Container>
-        <MoodEntryList />
+        <MoodEntryFeed />
       </Container>
     );
   }
@@ -46,6 +47,13 @@ export default class Main extends React.Component {
           }}
           name="AddEntry"
           component={AddMoodEntry}
+        />
+        <Stack.Screen
+          options={{
+            headerTitle: "Entry details",
+          }}
+          name="EntryDetail"
+          component={MoodEntryDetail}
         />
       </Stack.Navigator>
     );
