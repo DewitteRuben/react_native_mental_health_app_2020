@@ -2,14 +2,17 @@ import React from "react";
 import "react-native-gesture-handler";
 import { YellowBox } from "react-native";
 import { Provider } from "react-redux";
-import store from "./src/redux/store";
 import Root from "./src/views/Root";
+import store, { persistor } from "./src/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 YellowBox.ignoreWarnings(["VirtualizedLists should never be nested"]);
 
 const App = () => (
   <Provider store={store}>
-    <Root />
+    <PersistGate loading={null} persistor={persistor}>
+      <Root />
+    </PersistGate>
   </Provider>
 );
 
