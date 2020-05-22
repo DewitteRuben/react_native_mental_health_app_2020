@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ViewProps } from "react-native";
+import { View, StyleSheet, ViewProps, TouchableOpacityProps } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const cardStyles = StyleSheet.create({
@@ -18,7 +18,7 @@ const cardStyles = StyleSheet.create({
   },
 });
 
-export default class Card extends React.Component<ViewProps> {
+export default class Card extends React.Component<TouchableOpacityProps> {
   render() {
     const { children, style, ...other } = this.props;
 
