@@ -1,5 +1,5 @@
 import { takeLeading, call, put, select } from "redux-saga/effects";
-import { SetUserIdAction, AUTH_ACTION_TYPES, IAttemptAuth } from "../actions/authActions";
+import { SetUserIdAction, AUTH_ACTION_TYPES, IAttemptAuth, RequestAuthAction } from "../actions/authActions";
 import { setUserId, getUserId } from "../../../utils/storage";
 import { authApiFetchAuth } from "../../../api/authApi";
 import { selectUserId } from "../selectors";
@@ -31,6 +31,8 @@ function* authenticate(action: IAttemptAuth) {
     const id = yield call(getUserId);
     if (id) {
       yield put(SetUserIdAction(id));
+    } else {
+      yield put(RequestAuthAction());
     }
   } catch (error) {
     console.error(error);

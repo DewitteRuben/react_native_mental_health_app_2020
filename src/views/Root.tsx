@@ -7,10 +7,10 @@ import { AuthAction, AttemptAuthAction, IAttemptAuth } from "../redux/auth/actio
 import { connect } from "react-redux";
 import { IRootStoreState } from "../redux/store";
 import { Dispatch } from "redux";
-import { IAuthState } from "../redux/auth/reducer/authReducer";
+import { AuthStatus } from "../redux/auth/reducer/authReducer";
 
 interface IRootProps {
-  authenticated?: IAuthState;
+  status: AuthStatus;
   authenticate: () => IAttemptAuth;
 }
 
@@ -20,20 +20,11 @@ class Root extends React.Component<IRootProps, {}> {
     authenticate();
   }
 
-  componentDidUpdate(prevProps: IRootProps) {
-    const { authenticated, authenticate } = this.props;
-    if (authenticated !== prevProps.authenticated) {
-      if (authenticated === undefined) {
-        authenticate();
-      }
-    }
-  }
-
   render() {
-    const { authenticated } = this.props;
+    const { status } = this.props;
 
     // TODO: replace with spinner
-    if (authenticated === undefined) {
+    if (status === "ESTABLISING_AUTH") {
       return (
         <View>
           <Text>Loading...</Text>
@@ -41,12 +32,16 @@ class Root extends React.Component<IRootProps, {}> {
       );
     }
 
-    return <NavigationContainer>{authenticated ? renderMainNavigationTabs() : renderStartSplash()}</NavigationContainer>;
+    return (
+      <NavigationContainer>
+        {status === "AUTHENTICATED" ? renderMainNavigationTabs() : renderStartSplash()}
+      </NavigationContainer>
+    );
   }
 }
 
 const mapStateToProps = (state: IRootStoreState) => ({
-  authenticated: state.auth,
+  status: state.auth.status,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AuthAction>) => ({
