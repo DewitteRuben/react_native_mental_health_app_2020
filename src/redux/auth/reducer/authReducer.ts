@@ -1,11 +1,11 @@
 import { Reducer } from "redux";
 import { ISetUserId, AUTH_ACTION_TYPES, AuthAction } from "../actions/authActions";
 
-export type AuthStatus = "ESTABLISING_AUTH" | "REQUEST_AUTH" | "AUTHENTICATED";
+export type AuthStatus = "ESTABLISHING" | "REQUESTING" | "AUTHENTICATED";
 
 const initialState: IAuthState = {
   userId: undefined,
-  status: "ESTABLISING_AUTH",
+  status: "ESTABLISHING",
 };
 
 export interface IAuthState {
@@ -20,7 +20,7 @@ const authReducer: Reducer<IAuthState, ISetUserId> = (state = initialState, acti
       const { userId } = setUserAction;
       return { ...state, userId, status: "AUTHENTICATED" };
     case AUTH_ACTION_TYPES.REQUEST_AUTH:
-      return { ...state, status: "REQUEST_AUTH" };
+      return { ...state, status: "REQUESTING" };
     default:
       return state;
   }
