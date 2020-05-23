@@ -11,6 +11,7 @@ interface ISmileyButtonProps {
   type: SmileyType;
   onPress?: (pressed: SmileyType) => void;
   selected?: boolean;
+  disabled?: boolean;
 }
 
 const smileyButtonStyles = StyleSheet.create({
@@ -51,7 +52,7 @@ export default class SmileyButton extends React.Component<ISmileyButtonProps, {}
   };
 
   render() {
-    const { type, selected } = this.props;
+    const { type, selected, disabled } = this.props;
 
     const smileyName = (type as string)
       .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -60,7 +61,7 @@ export default class SmileyButton extends React.Component<ISmileyButtonProps, {}
       .join(" ");
 
     return (
-      <TouchableOpacity onPress={this.handleOnPress} style={smileyButtonStyles.container}>
+      <TouchableOpacity disabled={disabled} onPress={this.handleOnPress} style={smileyButtonStyles.container}>
         <View style={[smileyButtonStyles.imageContainer, selected && smileyButtonStyles.imageSelected]}>
           <Image style={smileyButtonStyles.image} source={smileyImageSrcMap[type]} />
         </View>
