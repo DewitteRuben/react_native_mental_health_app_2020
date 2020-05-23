@@ -83,11 +83,12 @@ export interface IButtonProps extends TouchableOpacityProps {
   iconComponent?: React.ReactElement;
   iconPosition?: "left" | "right";
   type?: ButtonColor;
+  disabled?: boolean;
 }
 
 export default class Button extends React.Component<IButtonProps, {}> {
   render() {
-    const { active, iconComponent, text, type, block, style, square, iconPosition, ...props } = this.props;
+    const { active, iconComponent, text, type, block, style, square, iconPosition, disabled, ...props } = this.props;
     const defaultType = "gray";
     const right = iconPosition === "right";
 
@@ -111,7 +112,7 @@ export default class Button extends React.Component<IButtonProps, {}> {
     const IconComponent = iconComponent && React.cloneElement(iconComponent, { style: textStyles });
 
     return (
-      <TouchableOpacity style={[containerStyles, style]} {...props}>
+      <TouchableOpacity disabled={disabled} style={[containerStyles, style]} {...props}>
         {!right && IconComponent}
         <Text style={[textStyles, iconComponent && buttonStyles.iconMargin]}>{text}</Text>
         {right && IconComponent}
