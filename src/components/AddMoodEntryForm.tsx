@@ -23,7 +23,7 @@ export interface INewMoodEntry {
   emotions: string[];
   experiences: IExperienceItem[];
   thoughts: string;
-  sleep: number;
+  hoursOfSleep: number;
 }
 
 interface IAddMoodEntryFormProps {
@@ -41,7 +41,7 @@ export default class AddMoodEntryForm extends React.Component<IAddMoodEntryFormP
     experiences: [],
     thoughts: "",
     mood: undefined,
-    sleep: undefined,
+    hoursOfSleep: undefined,
     modalVisible: false,
     modalMessage: "",
   };
@@ -59,7 +59,7 @@ export default class AddMoodEntryForm extends React.Component<IAddMoodEntryFormP
   };
 
   setSleep = (sleep: React.ReactText) => {
-    this.setState({ sleep: sleep as number });
+    this.setState({ hoursOfSleep: sleep as number });
   };
 
   setThoughts = (thoughts: React.ReactText) => {
@@ -68,8 +68,8 @@ export default class AddMoodEntryForm extends React.Component<IAddMoodEntryFormP
 
   saveEntry = () => {
     const { onSave } = this.props;
-    const { emotions, experiences, sleep, mood, thoughts } = this.state;
-    const requiredFields: { [key: string]: any } = { emotions, experiences, sleep, mood };
+    const { emotions, experiences, hoursOfSleep, mood, thoughts } = this.state;
+    const requiredFields: { [key: string]: any } = { emotions, experiences, hoursOfSleep, mood };
 
     const fieldKeys = Object.keys(requiredFields);
     const emptyRequiredFields = fieldKeys.filter(
@@ -84,10 +84,10 @@ export default class AddMoodEntryForm extends React.Component<IAddMoodEntryFormP
       return this.setState({ modalVisible: true, modalMessage: message });
     }
 
-    if (onSave && emotions && experiences && sleep && mood) {
+    if (onSave && emotions && experiences && hoursOfSleep && mood) {
       const entryId = uuidv4(); // needs to be created locally to support offline support
       const date = new Date(); // needs to be created locally to support offline support
-      onSave({ entryId, emotions, experiences, sleep, mood, date, thoughts });
+      onSave({ entryId, emotions, experiences, hoursOfSleep, mood, date, thoughts });
     }
   };
 

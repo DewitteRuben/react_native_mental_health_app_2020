@@ -5,7 +5,6 @@ import { View, Text, StyleSheet, ViewProps } from "react-native";
 import { IMoodEntry } from "../api/moodApi";
 import _ from "lodash";
 import { useNavigation } from "@react-navigation/native";
-import { RouteProp } from "@react-navigation/native";
 
 const moodEntryListItemStyles = StyleSheet.create({
   container: {
@@ -13,7 +12,7 @@ const moodEntryListItemStyles = StyleSheet.create({
   },
 });
 
-interface IMoodEntryListItemProps extends ViewProps, Omit<IMoodEntry, "experiences" | "sleep" | "thoughts"> {}
+interface IMoodEntryListItemProps extends ViewProps, Omit<IMoodEntry, "experiences" | "hoursOfSleep" | "thoughts"> {}
 
 const MoodEntryListItem: React.FC<IMoodEntryListItemProps> = ({ entryId, style, mood, date, emotions }) => {
   const navigation = useNavigation();

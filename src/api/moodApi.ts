@@ -7,7 +7,7 @@ export interface IMoodEntry {
   entryId: string;
   emotions: string[];
   experiences: IExperienceItem[];
-  sleep: number;
+  hoursOfSleep: number;
   mood: string;
   date: Date;
 }
