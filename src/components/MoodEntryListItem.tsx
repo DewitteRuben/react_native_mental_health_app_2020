@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, ViewProps } from "react-native";
 import { IMoodEntry } from "../api/moodApi";
 import _ from "lodash";
 import { useNavigation } from "@react-navigation/native";
+import { Routes } from "../navigation/navigation";
 
 const moodEntryListItemStyles = StyleSheet.create({
   container: {
@@ -18,7 +19,7 @@ const MoodEntryListItem: React.FC<IMoodEntryListItemProps> = ({ entryId, style, 
   const navigation = useNavigation();
 
   const viewDetail = React.useCallback(() => {
-    navigation.navigate("EntryDetail", { entryId });
+    navigation.navigate(Routes.ENTRY_DETAIL, { entryId });
   }, [navigation]);
 
   return (

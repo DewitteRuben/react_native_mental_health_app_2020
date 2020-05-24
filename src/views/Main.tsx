@@ -7,6 +7,7 @@ import AddMoodEntry from "./AddMoodEntry";
 import { StackNavigationProp } from "@react-navigation/stack";
 import MoodEntryFeed from "../components/MoodEntryFeed";
 import MoodEntryDetail from "./MoodEntryDetail";
+import { Routes } from "../navigation/navigation";
 
 const Stack = createStackNavigator();
 
@@ -34,25 +35,25 @@ export default class Main extends React.Component {
           options={({ navigation }) => ({
             headerRight: (props) => (
               <HeaderButtons HeaderButtonComponent={HeaderAntDesignButton}>
-                <Item title="add" onPress={navigate(navigation)("AddEntry")} iconName="plus" />
+                <Item title="add" onPress={navigate(navigation)(Routes.ADD_ENTRY)} iconName="plus" />
               </HeaderButtons>
             ),
           })}
-          name="Main"
+          name={Routes.MAIN}
           component={MainComponent}
         />
         <Stack.Screen
           options={{
             headerTitle: "Create a new entry",
           }}
-          name="AddEntry"
+          name={Routes.ADD_ENTRY}
           component={AddMoodEntry}
         />
         <Stack.Screen
           options={{
             headerTitle: "Entry details",
           }}
-          name="EntryDetail"
+          name={Routes.ENTRY_DETAIL}
           component={MoodEntryDetail}
         />
       </Stack.Navigator>

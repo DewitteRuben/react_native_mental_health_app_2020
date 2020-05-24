@@ -7,9 +7,14 @@ import Start from "../views/Start";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+export enum Routes {
+  MAIN = "Main",
+  ADD_ENTRY = "AddEntry",
+  ENTRY_DETAIL = "EntryDetail",
+}
+
 const MAIN_TAB_NAVIGATION: Record<string, React.ComponentType<any>> = {
   Home: Main,
-  Mood: Main,
   Tasks: Main,
 };
 
