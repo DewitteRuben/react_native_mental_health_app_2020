@@ -6,6 +6,7 @@ import { IMoodEntry } from "../api/moodApi";
 import _ from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import { Routes } from "../navigation/navigation";
+import moment from "moment";
 
 const moodEntryListItemStyles = StyleSheet.create({
   container: {
@@ -26,7 +27,7 @@ const MoodEntryListItem: React.FC<IMoodEntryListItemProps> = ({ entryId, style, 
     <Card onPress={viewDetail} style={[moodEntryListItemStyles.container, style]}>
       <SmileyButton type={mood as SmileyType} />
       <View>
-        <Text>{date.toLocaleString()}</Text>
+        <Text>{moment(date).format("lll")}</Text>
         <Text>{emotions.map((emotion) => _.capitalize(emotion)).join(", ")}</Text>
       </View>
       <View>
