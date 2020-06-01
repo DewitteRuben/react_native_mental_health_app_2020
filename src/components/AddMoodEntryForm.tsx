@@ -14,7 +14,7 @@ import { IMultiSelectorButton } from "./MultiButtonSelector";
 import _ from "lodash";
 import { PartialBy } from "../utils/types";
 import Modal, { createModalButton } from "./Modal";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 
 export interface INewMoodEntry {
   entryId: string;
