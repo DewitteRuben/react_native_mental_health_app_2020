@@ -1,12 +1,10 @@
 # React Native front end of PsyTrack
 
-## Introduction
+More information on this project can be found on my website [here](https://www.rubendewitte.com/projects/mheapp).
 
-More information on this project can be found on my website: [here](https://www.rubendewitte.com/projects/mheapp).
+The ReactJS frontend (Web portal) of this project can be found [here](https://github.com/DewitteRuben/reactjs_mental_health_portal).
 
-The ReactJS frontend (Web portal) of this project can be found [here](https://github.com/DewitteRuben/reactjs_mental_health_portal)
-
-The NodeJS backend (API) of this project can be found [here](https://github.com/DewitteRuben/backend_nodejs_ts_mental_health_app_2020)
+The NodeJS backend (API) of this project can be found [here](https://github.com/DewitteRuben/backend_nodejs_ts_mental_health_app_2020).
 
 
 ## Setup
