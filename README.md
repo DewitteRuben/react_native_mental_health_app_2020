@@ -11,9 +11,9 @@ Create a .env.json file, in the root of this project, that includes the followin
 
 Replace the value of the 'BASE_API_LOCAL' with the host and port where the NodeJS backend is running on, appended with "/api".
 
-### Build
+## Build
 
-## Expo
+### Expo
 
 By simply running:
 
